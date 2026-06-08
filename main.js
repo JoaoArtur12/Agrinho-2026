@@ -1,533 +1,214 @@
 /* =====================================================
-   AGRINHO 2026
-   main.js
-   Todas as funcionalidades JavaScript do projeto
+   AGRINHO 2026 - main.js COMPLETO
+   Responsável por toda interatividade do site
 ===================================================== */
 
-
-/* =====================================================
-   MENU RESPONSIVO MOBILE
-===================================================== */
-
+/* ================= MENU MOBILE ================= */
 const menuToggle = document.querySelector(".menu-toggle");
 const menu = document.querySelector(".menu");
 
-if(menuToggle){
+if (menuToggle) {
     menuToggle.addEventListener("click", () => {
         menu.classList.toggle("show");
     });
 }
 
-
-/* =====================================================
-   DARK MODE
-===================================================== */
-
+/* ================= DARK MODE ================= */
 const darkBtn = document.getElementById("darkModeBtn");
 
-if(localStorage.getItem("darkMode") === "true"){
-    document.body.classList.add("dark");
-    darkBtn.textContent = "☀";
-}
+if (darkBtn) {
+    // Aplica dark mode se estava salvo
+    if (localStorage.getItem("darkMode") === "true") {
+        document.body.classList.add("dark");
+        darkBtn.textContent = "☀";
+    }
 
-if(darkBtn){
     darkBtn.addEventListener("click", () => {
-
         document.body.classList.toggle("dark");
 
         const ativo = document.body.classList.contains("dark");
-
         localStorage.setItem("darkMode", ativo);
 
         darkBtn.textContent = ativo ? "☀" : "🌙";
     });
 }
 
-
-/* =====================================================
-   BOTÃO VOLTAR AO TOPO
-===================================================== */
-
+/* ================= BOTÃO VOLTAR AO TOPO ================= */
 const backToTop = document.getElementById("backToTop");
 
 window.addEventListener("scroll", () => {
-
-    if(window.scrollY > 500){
+    if (window.scrollY > 400) {
         backToTop.style.display = "block";
-    }
-    else{
+    } else {
         backToTop.style.display = "none";
     }
-
 });
 
-if(backToTop){
+if (backToTop) {
     backToTop.addEventListener("click", () => {
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
     });
 }
 
+/* ================= CONTADORES ANIMADOS ================= */
+const counters = document.querySelectorAll(".counter");
 
-/* =====================================================
-   HEADER DINÂMICO
-===================================================== */
-
-const header = document.getElementById("header");
-
-window.addEventListener("scroll", () => {
-
-    if(window.scrollY > 50){
-
-        header.style.padding = "5px 2%";
-        header.style.boxShadow = "0 5px 20px rgba(0,0,0,.2)";
-
-    }else{
-
-        header.style.padding = "10px 2%";
-        header.style.boxShadow = "none";
-
-    }
-
-});
-
-
-/* =====================================================
-   CONTADORES ANIMADOS
-===================================================== */
-
-const counters = document.querySelectorAll(".count");
-
-function iniciarContadores(){
-
+function animateCounters() {
     counters.forEach(counter => {
-
-        const target = +counter.dataset.target;
-
+        const target = +counter.getAttribute("data-target");
         let current = 0;
+        const step = target / 100;
 
-        const increment = target / 80;
-
-        const updateCounter = () => {
-
-            current += increment;
-
-            if(current < target){
-
-                counter.innerText = Math.floor(current);
-
-                requestAnimationFrame(updateCounter);
-
-            }else{
-
+        const update = () => {
+            current += step;
+            if (current < target) {
+                counter.innerText = Math.floor(current) + "%";
+                requestAnimationFrame(update);
+            } else {
                 counter.innerText = target + "%";
-
             }
-
         };
 
-        updateCounter();
-
+        update();
     });
-
 }
 
-let contadorExecutado = false;
+let countersStarted = false;
 
 window.addEventListener("scroll", () => {
+    const section = document.getElementById("impactos");
+    if (!section) return;
 
-    const secao = document.getElementById("impactos");
-
-    if(!secao) return;
-
-    const posicao = secao.getBoundingClientRect().top;
-
-    if(posicao < window.innerHeight && !contadorExecutado){
-
-        iniciarContadores();
-
-        contadorExecutado = true;
-
+    const pos = section.getBoundingClientRect().top;
+    if (pos < window.innerHeight && !countersStarted) {
+        animateCounters();
+        countersStarted = true;
     }
-
 });
 
+/* ================= LINHA DO TEMPO ================= */
+const timelineItems = document.querySelectorAll(".timeline-event");
 
-/* =====================================================
-   QUIZ DE SUSTENTABILIDADE
-===================================================== */
+timelineItems.forEach(item => {
+    item.style.opacity = 0;
+    item.style.transform = "translateX(-50px)";
+    item.style.transition = "0.6s";
+});
 
-const quizButtons = document.querySelectorAll(".quiz-btn");
-const quizResult = document.getElementById("quiz-result");
+function showTimeline() {
+    timelineItems.forEach(item => {
+        const top = item.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+            item.style.opacity = 1;
+            item.style.transform = "translateX(0)";
+        }
+    });
+}
 
-quizButtons.forEach(btn => {
+window.addEventListener("scroll", showTimeline);
 
+/* ================= JOGO EDUCATIVO ================= */
+const gameButtons = document.querySelectorAll(".game-btn");
+const gameResult = document.getElementById("gameResult");
+let score = 0;
+
+gameButtons.forEach(btn => {
     btn.addEventListener("click", () => {
+        const value = parseInt(btn.getAttribute("data-score"));
+        score += value;
 
-        const resposta = btn.innerText;
+        if (gameResult) {
+            gameResult.innerText = `Pontuação atual: ${score}`;
 
-        if(resposta.includes("Solar")){
-
-            quizResult.innerHTML =
-            "✅ Correto! A energia solar é uma fonte renovável.";
-
-            quizResult.style.color = "green";
-
-        }else{
-
-            quizResult.innerHTML =
-            "❌ Incorreto. A resposta correta é Energia Solar.";
-
-            quizResult.style.color = "red";
-
+            if (score >= 15) {
+                gameResult.innerText += " 🌱 Excelente fazenda sustentável!";
+            } else if (score <= -5) {
+                gameResult.innerText += " ⚠ Práticas prejudiciais!";
+            }
         }
-
     });
-
 });
 
+/* ================= MAPA INTERATIVO ================= */
+const farms = document.querySelectorAll(".farm");
 
-/* =====================================================
-   CALCULADORA ECOLÓGICA
-===================================================== */
-
-const calcBtn = document.getElementById("calcBtn");
-
-if(calcBtn){
-
-    calcBtn.addEventListener("click", () => {
-
-        const agua =
-        parseFloat(document.getElementById("agua").value) || 0;
-
-        const energia =
-        parseFloat(document.getElementById("energia").value) || 0;
-
-        const reciclagem =
-        parseFloat(document.getElementById("reciclagem").value) || 0;
-
-        let pontos = 100;
-
-        pontos -= agua / 20;
-        pontos -= energia / 10;
-        pontos += reciclagem * 2;
-
-        if(pontos > 100) pontos = 100;
-        if(pontos < 0) pontos = 0;
-
-        let classificacao = "";
-
-        if(pontos >= 80){
-
-            classificacao = "🌱 Excelente";
-
-        }else if(pontos >= 60){
-
-            classificacao = "✅ Bom";
-
-        }else if(pontos >= 40){
-
-            classificacao = "⚠ Médio";
-
-        }else{
-
-            classificacao = "❌ Precisa melhorar";
-
-        }
-
-        document.getElementById("calcResult").innerHTML =
-        `
-        Pontuação Sustentável:
-        <strong>${pontos.toFixed(0)}/100</strong>
-        <br>
-        ${classificacao}
-        `;
-
+farms.forEach(farm => {
+    farm.addEventListener("click", () => {
+        alert("Você visitou " + farm.innerText);
     });
+});
 
-}
+/* ================= GRÁFICO EM CANVAS ================= */
+const canvas = document.getElementById("graficoAgro");
 
+if (canvas) {
+    const ctx = canvas.getContext("2d");
 
-/* =====================================================
-   CARROSSEL AUTOMÁTICO
-===================================================== */
+    const dados = [60, 80, 90, 70]; // Produção fictícia
+    const labels = ["2010", "2015", "2020", "2026"];
 
-const track = document.querySelector(".carousel-track");
+    function desenharGrafico() {
+        const largura = canvas.width;
+        const altura = canvas.height;
+        ctx.clearRect(0, 0, largura, altura);
 
-if(track){
+        const barWidth = 80;
+        const gap = 40;
 
-    let position = 0;
+        dados.forEach((valor, i) => {
+            const x = i * (barWidth + gap) + 60;
+            const y = altura - valor * 3;
 
-    setInterval(() => {
+            ctx.fillStyle = "#2e7d32";
+            ctx.fillRect(x, y, barWidth, valor * 3);
 
-        const imagens =
-        document.querySelectorAll(".carousel-track img");
-
-        if(imagens.length === 0) return;
-
-        position++;
-
-        if(position >= imagens.length){
-
-            position = 0;
-
-        }
-
-        track.style.transform =
-        `translateX(-${position * 420}px)`;
-
-    },3000);
-
-}
-
-
-/* =====================================================
-   SCROLL REVEAL
-===================================================== */
-
-const revealElements = document.querySelectorAll(
-".card, .counter, .quiz-container, .calc-container"
-);
-
-function reveal(){
-
-    revealElements.forEach(element => {
-
-        const elementTop =
-        element.getBoundingClientRect().top;
-
-        const visible = 100;
-
-        if(elementTop < window.innerHeight - visible){
-
-            element.classList.add("active-reveal");
-
-        }
-
-    });
-
-}
-
-window.addEventListener("scroll", reveal);
-
-reveal();
-
-
-/* =====================================================
-   EFEITO DE DIGITAÇÃO NO BANNER
-===================================================== */
-
-const tituloBanner =
-document.querySelector("#banner h1");
-
-if(tituloBanner){
-
-    const textoOriginal =
-    tituloBanner.textContent;
-
-    tituloBanner.textContent = "";
-
-    let i = 0;
-
-    function digitar(){
-
-        if(i < textoOriginal.length){
-
-            tituloBanner.textContent +=
-            textoOriginal.charAt(i);
-
-            i++;
-
-            setTimeout(digitar,100);
-
-        }
-
+            ctx.fillStyle = "#000";
+            ctx.fillText(valor + "%", x + 20, y - 10);
+            ctx.fillText(labels[i], x + 20, altura - 10);
+        });
     }
 
-    digitar();
-
+    desenharGrafico();
 }
 
+/* ================= SCROLL SUAVE PARA O MENU ================= */
+document.querySelectorAll(".menu a").forEach(link => {
+    link.addEventListener("click", e => {
+        e.preventDefault();
+        const id = link.getAttribute("href").replace("#", "");
+        const section = document.getElementById(id);
 
-/* =====================================================
-   PARALLAX LEVE
-===================================================== */
-
-window.addEventListener("scroll", () => {
-
-    const banner =
-    document.getElementById("banner");
-
-    if(!banner) return;
-
-    let offset = window.pageYOffset;
-
-    banner.style.backgroundPositionY =
-    offset * 0.5 + "px";
-
-});
-
-
-/* =====================================================
-   EFEITO NOS CARDS
-===================================================== */
-
-const cards = document.querySelectorAll(".card");
-
-cards.forEach(card => {
-
-    card.addEventListener("mouseenter", () => {
-
-        card.style.transform =
-        "translateY(-10px) scale(1.03)";
-
-    });
-
-    card.addEventListener("mouseleave", () => {
-
-        card.style.transform =
-        "translateY(0px) scale(1)";
-
-    });
-
-});
-
-
-/* =====================================================
-   ANIMAÇÃO DE NÚMEROS FLUTUANTES
-===================================================== */
-
-function criarParticula(){
-
-    const particle =
-    document.createElement("div");
-
-    particle.innerHTML = "🌱";
-
-    particle.style.position = "fixed";
-
-    particle.style.left =
-    Math.random() * window.innerWidth + "px";
-
-    particle.style.bottom = "-20px";
-
-    particle.style.fontSize = "20px";
-
-    particle.style.pointerEvents = "none";
-
-    particle.style.zIndex = "999";
-
-    document.body.appendChild(particle);
-
-    let posY = -20;
-
-    const interval = setInterval(() => {
-
-        posY += 2;
-
-        particle.style.bottom =
-        posY + "px";
-
-        if(posY > window.innerHeight + 100){
-
-            particle.remove();
-
-            clearInterval(interval);
-
+        if (section) {
+            window.scrollTo({ top: section.offsetTop - 70, behavior: "smooth" });
         }
 
-    },20);
+        // Fecha menu mobile
+        menu.classList.remove("show");
+    });
+});
 
+/* ================= EFEITO DE ENTRADA DAS SEÇÕES ================= */
+const sections = document.querySelectorAll(".section");
+
+sections.forEach(sec => {
+    sec.style.opacity = 0;
+    sec.style.transform = "translateY(40px)";
+    sec.style.transition = "0.6s";
+});
+
+function revealSections() {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+            sec.style.opacity = 1;
+            sec.style.transform = "translateY(0)";
+        }
+    });
 }
 
-setInterval(criarParticula,4000);
+window.addEventListener("scroll", revealSections);
 
-
-/* =====================================================
-   MENSAGEM DE BOAS-VINDAS
-===================================================== */
-
+/* ================= LOG DE INICIALIZAÇÃO ================= */
 window.addEventListener("load", () => {
-
-    console.log(
-        "🌱 Projeto Agrinho 2026 carregado com sucesso!"
-    );
-
+    console.log("🌱 Agrinho 2026 carregado com sucesso!");
 });
-
-
-/* =====================================================
-   DESTAQUE DO MENU CONFORME A SEÇÃO
-===================================================== */
-
-const sections =
-document.querySelectorAll("section");
-
-const navLinks =
-document.querySelectorAll(".menu a");
-
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const sectionTop =
-        section.offsetTop - 120;
-
-        const sectionHeight =
-        section.clientHeight;
-
-        if(window.scrollY >= sectionTop){
-
-            current = section.getAttribute("id");
-
-        }
-
-    });
-
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if(link.getAttribute("href") ===
-        "#" + current){
-
-            link.classList.add("active");
-
-        }
-
-    });
-
-});
-
-
-/* =====================================================
-   SOM DE CLIQUE (OPCIONAL)
-   Necessário adicionar:
-   sons/click.mp3
-===================================================== */
-
-/*
-const audio = new Audio("sons/click.mp3");
-
-document.querySelectorAll("button").forEach(btn => {
-
-    btn.addEventListener("click", () => {
-
-        audio.currentTime = 0;
-        audio.play();
-
-    });
-
-});
-*/
-
-
-/* =====================================================
-   FIM DO ARQUIVO
-===================================================== */
