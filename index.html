@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agrinho 2026 - Tecnologia e Sustentabilidade</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+  <!-- CABEÇALHO -->
+  <header id="header">
+    <div class="logo">Agrinho 2026</div>
+    <nav class="nav">
+      <ul class="menu">
+        <li><a href="#intro">Início</a></li>
+        <li><a href="#sustentabilidade">Sustentabilidade</a></li>
+        <li><a href="#tecnologia">Tecnologia</a></li>
+        <li><a href="#impactos">Impactos</a></li>
+        <li><a href="#quiz">Quiz</a></li>
+        <li><a href="#calculadora">Calculadora</a></li>
+        <li><a href="#galeria">Galeria</a></li>
+        <li><a href="#ranking">Ranking</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <div class="menu-toggle"><span></span><span></span><span></span></div>
+      <button id="darkModeBtn">🌙</button>
+    </nav>
+  </header>
+
+  <!-- BANNER PRINCIPAL -->
+  <section id="banner">
+    <div class="banner-content">
+      <h1>Agrinho 2026</h1>
+      <p>Tecnologia, Agricultura e Sustentabilidade: Construindo o Futuro do Campo</p>
+      <div class="banner-buttons">
+        <a href="#sustentabilidade" class="btn">Saiba Mais</a>
+        <a href="#tecnologia" class="btn btn-secondary">Explorar Projeto</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRODUÇÃO -->
+  <section id="intro" class="section">
+    <h2>Bem-vindo ao Agrinho 2026</h2>
+    <p>O Agrinho 2026 é um projeto educacional que une tecnologia, agricultura e sustentabilidade, ensinando como podemos construir um futuro melhor para o campo e para as cidades.</p>
+  </section>
+
+  <!-- SUSTENTABILIDADE -->
+  <section id="sustentabilidade" class="section">
+    <h2>Sustentabilidade no Agro</h2>
+    <div class="cards">
+      <div class="card">🌱 <h3>Preservação Ambiental</h3><p>Protegendo nossos recursos naturais.</p></div>
+      <div class="card">💧 <h3>Uso Consciente da Água</h3><p>Tecnologias que economizam água.</p></div>
+      <div class="card">☀ <h3>Energia Limpa</h3><p>Fazendas utilizando energia solar e eólica.</p></div>
+      <div class="card">♻ <h3>Reciclagem</h3><p>Reduzindo resíduos e reaproveitando materiais.</p></div>
+    </div>
+  </section>
+
+  <!-- TECNOLOGIA -->
+  <section id="tecnologia" class="section">
+    <h2>Tecnologia e Produção</h2>
+    <div class="cards">
+      <div class="card">🚁 <h3>Drones</h3><p>Monitoramento de lavouras e pulverização eficiente.</p></div>
+      <div class="card">📡 <h3>Sensores Inteligentes</h3><p>Dados em tempo real sobre clima, solo e plantas.</p></div>
+      <div class="card">🤖 <h3>Robótica</h3><p>Máquinas que automatizam tarefas agrícolas.</p></div>
+      <div class="card">🧠 <h3>Inteligência Artificial</h3><p>Previsão de produção e otimização de recursos.</p></div>
+    </div>
+  </section>
+
+  <!-- IMPACTOS -->
+  <section id="impactos" class="section">
+    <h2>Impactos Positivos</h2>
+    <div class="counters">
+      <div class="counter"><h3 class="count" data-target="85">0</h3><p>Produtividade</p></div>
+      <div class="counter"><h3 class="count" data-target="60">0</h3><p>Desperdício de Água</p></div>
+      <div class="counter"><h3 class="count" data-target="70">0</h3><p>Eficiência Energética</p></div>
+      <div class="counter"><h3 class="count" data-target="90">0</h3><p>Monitoramento Ambiental</p></div>
+    </div>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="section">
+    <h2>Quiz de Sustentabilidade</h2>
+    <div class="quiz-container">
+      <p>Qual fonte de energia é renovável?</p>
+      <button class="quiz-btn">A) Petróleo</button>
+      <button class="quiz-btn">B) Solar</button>
+      <button class="quiz-btn">C) Carvão</button>
+      <p id="quiz-result"></p>
+    </div>
+  </section>
+
+  <!-- CALCULADORA ECOLÓGICA -->
+  <section id="calculadora" class="section">
+    <h2>Calculadora Ecológica</h2>
+    <div class="calc-container">
+      <label>Consumo de Água (L/dia): <input type="number" id="agua"></label>
+      <label>Energia (kWh/mês): <input type="number" id="energia"></label>
+      <label>Reciclagem (kg/mês): <input type="number" id="reciclagem"></label>
+      <button id="calcBtn">Calcular Pontuação</button>
+      <p id="calcResult"></p>
+    </div>
+  </section>
+
+  <!-- GALERIA -->
+  <section id="galeria" class="section">
+    <h2>Galeria</h2>
+    <div class="carousel">
+      <div class="carousel-track">
+        <img src="imagens/drone.jpg" alt="Drone agrícola">
+        <img src="imagens/fazenda.jpg" alt="Fazenda inteligente">
+        <img src="imagens/energia.jpg" alt="Energia solar">
+        <img src="imagens/robotica.jpg" alt="Robótica no campo">
+      </div>
+    </div>
+  </section>
+
+  <!-- RANKING SUSTENTÁVEL -->
+  <section id="ranking" class="section">
+    <h2>Ranking Sustentável</h2>
+    <table>
+      <thead>
+        <tr><th>Produtor</th><th>Pontos</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>João</td><td>95</td></tr>
+        <tr><td>Maria</td><td>88</td></tr>
+        <tr><td>Pedro</td><td>81</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="contato">
+    <p>Projeto Agrinho 2026 &copy; 2026</p>
+    <p>Tecnologia + Agricultura + Sustentabilidade</p>
+  </footer>
+
+  <button id="backToTop">⬆</button>
+
+  <!-- SCRIPT -->
+  <script src="main.js"></script>
+</body>
+</html>
